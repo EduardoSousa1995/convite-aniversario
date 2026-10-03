@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Convite de Aniversário - Aylla 5 anos</title>
+  <title>Convite de Aniversário - Aylla 5 Anos</title>
 
   <style>
     * {
@@ -13,87 +13,256 @@
 
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(180deg, #6b21a8, #ec4899);
       min-height: 100vh;
-      padding: 20px 12px 40px;
+      font-family: Arial, Helvetica, sans-serif;
+
+      background:
+        linear-gradient(
+          rgba(85, 20, 160, 0.42),
+          rgba(235, 55, 145, 0.42)
+        ),
+        url("convite.jpg");
+
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+
+      display: flex;
+      justify-content: center;
+
+      padding: 18px 12px 40px;
     }
 
     .pagina {
       width: 100%;
-      max-width: 520px;
-      margin: 0 auto;
+      max-width: 650px;
     }
 
-    /* CONVITE COMPLETO */
     .convite-img {
-      display: block;
       width: 100%;
-      height: auto;
+      display: block;
       border-radius: 22px;
-      box-shadow: 0 12px 35px rgba(0,0,0,0.35);
+      box-shadow: 0 12px 35px rgba(0,0,0,.30);
     }
 
-    /* ÁREA DOS BOTÕES */
     .acoes {
-      margin-top: 18px;
-      padding: 20px;
-      background: rgba(255,255,255,0.96);
+      margin-top: 12px;
+
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(10px);
+
       border-radius: 22px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+
+      padding: 25px 22px;
+
+      box-shadow: 0 12px 35px rgba(0,0,0,.25);
+
       text-align: center;
     }
 
     .acoes h2 {
-      margin: 0 0 8px;
-      color: #5b167d;
-      font-size: 24px;
+      margin: 0 0 6px;
+      font-size: 27px;
+      color: #292929;
     }
 
     .acoes p {
-      margin: 0 0 18px;
+      margin: 0 0 22px;
       color: #555;
-      font-size: 15px;
+      font-size: 16px;
     }
 
     .botao {
       display: block;
       width: 100%;
-      padding: 17px 15px;
-      margin: 12px 0;
+
       border: none;
       border-radius: 14px;
+
+      padding: 17px 15px;
+
+      margin-top: 13px;
+
       font-size: 17px;
       font-weight: bold;
-      text-decoration: none;
+
+      color: white;
+
       cursor: pointer;
-      transition: transform 0.15s;
+
+      text-decoration: none;
+
+      transition: transform .15s ease,
+                  box-shadow .15s ease;
     }
 
-    .botao:active {
-      transform: scale(0.98);
+    .botao:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 7px 16px rgba(0,0,0,.20);
     }
 
     .confirmar {
-      background: #22c55e;
-      color: white;
+      background: linear-gradient(135deg,#25c76f,#18a957);
     }
 
     .localizacao {
-      background: #7c3aed;
-      color: white;
+      background: linear-gradient(135deg,#7557e8,#5638ce);
     }
 
-    .nao {
-      background: #ef4444;
-      color: white;
+    .recusar {
+      background: linear-gradient(135deg,#ff634c,#e94332);
     }
 
-    .rodape {
-      margin-top: 16px;
+    /* JANELA DE CONFIRMAÇÃO */
+
+    .modal {
+      display: none;
+
+      position: fixed;
+      inset: 0;
+
+      background: rgba(0,0,0,.65);
+
+      align-items: center;
+      justify-content: center;
+
+      padding: 20px;
+
+      z-index: 999;
+    }
+
+    .modal.ativo {
+      display: flex;
+    }
+
+    .modal-conteudo {
+      width: 100%;
+      max-width: 430px;
+
+      background: white;
+
+      border-radius: 22px;
+
+      padding: 27px;
+
+      box-shadow: 0 15px 50px rgba(0,0,0,.35);
+
+      position: relative;
+    }
+
+    .fechar {
+      position: absolute;
+
+      right: 17px;
+      top: 12px;
+
+      border: none;
+      background: none;
+
+      font-size: 30px;
+
+      cursor: pointer;
+
       color: #777;
-      font-size: 13px;
     }
+
+    .modal h2 {
+      margin-top: 0;
+      margin-bottom: 7px;
+
+      color: #333;
+    }
+
+    .modal-descricao {
+      color: #666;
+      margin-bottom: 22px;
+    }
+
+    label {
+      display: block;
+
+      text-align: left;
+
+      margin-top: 15px;
+      margin-bottom: 6px;
+
+      font-weight: bold;
+
+      color: #444;
+    }
+
+    input,
+    select {
+      width: 100%;
+
+      padding: 14px;
+
+      border: 1px solid #ccc;
+
+      border-radius: 10px;
+
+      font-size: 16px;
+
+      outline: none;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: #7957e8;
+    }
+
+    .enviar {
+      background: linear-gradient(135deg,#25c76f,#18a957);
+      margin-top: 23px;
+    }
+
+    .mensagem-sucesso {
+      display: none;
+
+      text-align: center;
+
+      padding: 20px 5px;
+    }
+
+    .mensagem-sucesso .icone {
+      font-size: 55px;
+    }
+
+    .mensagem-sucesso h2 {
+      color: #199c51;
+    }
+
+    @media (max-width: 600px) {
+
+      body {
+        padding: 8px 7px 25px;
+        background-attachment: scroll;
+      }
+
+      .convite-img {
+        border-radius: 15px;
+      }
+
+      .acoes {
+        margin-top: 8px;
+        border-radius: 17px;
+        padding: 20px 15px;
+      }
+
+      .acoes h2 {
+        font-size: 22px;
+      }
+
+      .acoes p {
+        font-size: 14px;
+      }
+
+      .botao {
+        font-size: 16px;
+        padding: 16px 10px;
+      }
+    }
+
   </style>
 </head>
 
@@ -101,53 +270,281 @@
 
   <main class="pagina">
 
-    <!-- IMAGEM ORIGINAL DO CONVITE -->
     <img
       src="convite.jpg"
       alt="Convite de aniversário da Aylla - 5 anos"
       class="convite-img"
     >
 
-    <!-- BOTÕES INTERATIVOS -->
     <section class="acoes">
 
       <h2>Você vem comemorar comigo? 🎉</h2>
 
       <p>
-        Confirme sua presença e venha celebrar os 5 anos da Aylla!
+        Confirme sua presença e venha celebrar
+        os 5 anos da Aylla!
       </p>
 
-      <a
+      <button
         class="botao confirmar"
-        href="https://wa.me/5594992094603?text=Olá!%20Confirmo%20minha%20presença%20no%20aniversário%20da%20Aylla.%20🎉"
-        target="_blank"
+        onclick="abrirConfirmacao()"
       >
         ✅ Confirmar presença
-      </a>
+      </button>
 
       <a
         class="botao localizacao"
         href="https://www.google.com/maps/search/?api=1&query=-6.53771,-49.86727"
         target="_blank"
+        rel="noopener noreferrer"
       >
         📍 Ver localização
       </a>
 
-      <a
-        class="botao nao"
-        href="https://wa.me/5594992094603?text=Olá!%20Agradeço%20muito%20o%20convite,%20mas%20não%20poderei%20comparecer%20ao%20aniversário%20da%20Aylla."
-        target="_blank"
+      <button
+        class="botao recusar"
+        onclick="abrirRecusa()"
       >
         ❌ Não poderei comparecer
-      </a>
-
-      <div class="rodape">
-        📅 17/10/2026 • ⏰ 17:00h • 📍 Residencial Imperial
-      </div>
+      </button>
 
     </section>
 
   </main>
+
+
+  <!-- JANELA DE CONFIRMAÇÃO -->
+
+  <div class="modal" id="modalConfirmacao">
+
+    <div class="modal-conteudo">
+
+      <button
+        class="fechar"
+        onclick="fecharModal('modalConfirmacao')"
+      >
+        ×
+      </button>
+
+      <div id="formConfirmacao">
+
+        <h2>Confirmar presença 🎉</h2>
+
+        <p class="modal-descricao">
+          Que bom que você vem! Informe seus dados abaixo.
+        </p>
+
+        <label for="nomeConfirmacao">
+          Nome do convidado
+        </label>
+
+        <input
+          id="nomeConfirmacao"
+          type="text"
+          placeholder="Digite seu nome"
+        >
+
+        <label for="quantidade">
+          Quantas pessoas irão?
+        </label>
+
+        <select id="quantidade">
+
+          <option value="1">1 pessoa</option>
+          <option value="2">2 pessoas</option>
+          <option value="3">3 pessoas</option>
+          <option value="4">4 pessoas</option>
+          <option value="5">5 pessoas</option>
+          <option value="6">6 pessoas</option>
+
+        </select>
+
+        <button
+          class="botao enviar"
+          onclick="confirmarPresenca()"
+        >
+          ✅ Enviar confirmação
+        </button>
+
+      </div>
+
+
+      <div
+        class="mensagem-sucesso"
+        id="sucessoConfirmacao"
+      >
+
+        <div class="icone">🎉</div>
+
+        <h2>Presença confirmada!</h2>
+
+        <p>
+          Obrigado pela confirmação.<br>
+          Esperamos você na festa da Aylla! 💜
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- JANELA DE RECUSA -->
+
+  <div class="modal" id="modalRecusa">
+
+    <div class="modal-conteudo">
+
+      <button
+        class="fechar"
+        onclick="fecharModal('modalRecusa')"
+      >
+        ×
+      </button>
+
+      <div id="formRecusa">
+
+        <h2>Não poderá comparecer?</h2>
+
+        <p class="modal-descricao">
+          Informe seu nome para registrarmos sua resposta.
+        </p>
+
+        <label for="nomeRecusa">
+          Nome do convidado
+        </label>
+
+        <input
+          id="nomeRecusa"
+          type="text"
+          placeholder="Digite seu nome"
+        >
+
+        <button
+          class="botao recusar"
+          onclick="registrarRecusa()"
+        >
+          Enviar resposta
+        </button>
+
+      </div>
+
+
+      <div
+        class="mensagem-sucesso"
+        id="sucessoRecusa"
+      >
+
+        <div class="icone">💜</div>
+
+        <h2>Resposta registrada</h2>
+
+        <p>
+          Obrigado por nos avisar.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <script>
+
+    function abrirConfirmacao() {
+
+      document
+        .getElementById("modalConfirmacao")
+        .classList.add("ativo");
+
+    }
+
+
+    function abrirRecusa() {
+
+      document
+        .getElementById("modalRecusa")
+        .classList.add("ativo");
+
+    }
+
+
+    function fecharModal(id) {
+
+      document
+        .getElementById(id)
+        .classList.remove("ativo");
+
+    }
+
+
+    function confirmarPresenca() {
+
+      const nome =
+        document
+          .getElementById("nomeConfirmacao")
+          .value
+          .trim();
+
+      if (!nome) {
+
+        alert("Por favor, informe seu nome.");
+
+        return;
+      }
+
+      document
+        .getElementById("formConfirmacao")
+        .style.display = "none";
+
+      document
+        .getElementById("sucessoConfirmacao")
+        .style.display = "block";
+
+    }
+
+
+    function registrarRecusa() {
+
+      const nome =
+        document
+          .getElementById("nomeRecusa")
+          .value
+          .trim();
+
+      if (!nome) {
+
+        alert("Por favor, informe seu nome.");
+
+        return;
+      }
+
+      document
+        .getElementById("formRecusa")
+        .style.display = "none";
+
+      document
+        .getElementById("sucessoRecusa")
+        .style.display = "block";
+
+    }
+
+
+    window.onclick = function(event) {
+
+      if (
+        event.target.classList.contains("modal")
+      ) {
+
+        event.target.classList.remove("ativo");
+
+      }
+
+    };
+
+  </script>
 
 </body>
 </html>
