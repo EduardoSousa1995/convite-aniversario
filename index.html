@@ -47,16 +47,11 @@
 
     .acoes {
       margin-top: 12px;
-
       background: rgba(255,255,255,.92);
       backdrop-filter: blur(10px);
-
       border-radius: 22px;
-
       padding: 25px 22px;
-
       box-shadow: 0 12px 35px rgba(0,0,0,.25);
-
       text-align: center;
     }
 
@@ -75,30 +70,27 @@
     .botao {
       display: block;
       width: 100%;
-
       border: none;
       border-radius: 14px;
-
       padding: 17px 15px;
-
       margin-top: 13px;
-
       font-size: 17px;
       font-weight: bold;
-
       color: white;
-
       cursor: pointer;
-
       text-decoration: none;
-
-      transition: transform .15s ease,
-                  box-shadow .15s ease;
+      transition: transform .15s ease, box-shadow .15s ease;
     }
 
     .botao:hover {
       transform: translateY(-2px);
       box-shadow: 0 7px 16px rgba(0,0,0,.20);
+    }
+
+    .botao:disabled {
+      opacity: .65;
+      cursor: wait;
+      transform: none;
     }
 
     .confirmar {
@@ -113,21 +105,14 @@
       background: linear-gradient(135deg,#ff634c,#e94332);
     }
 
-    /* JANELA DE CONFIRMAÇÃO */
-
     .modal {
       display: none;
-
       position: fixed;
       inset: 0;
-
       background: rgba(0,0,0,.65);
-
       align-items: center;
       justify-content: center;
-
       padding: 20px;
-
       z-index: 999;
     }
 
@@ -138,38 +123,27 @@
     .modal-conteudo {
       width: 100%;
       max-width: 430px;
-
       background: white;
-
       border-radius: 22px;
-
       padding: 27px;
-
       box-shadow: 0 15px 50px rgba(0,0,0,.35);
-
       position: relative;
     }
 
     .fechar {
       position: absolute;
-
       right: 17px;
       top: 12px;
-
       border: none;
       background: none;
-
       font-size: 30px;
-
       cursor: pointer;
-
       color: #777;
     }
 
     .modal h2 {
       margin-top: 0;
       margin-bottom: 7px;
-
       color: #333;
     }
 
@@ -180,29 +154,20 @@
 
     label {
       display: block;
-
       text-align: left;
-
       margin-top: 15px;
       margin-bottom: 6px;
-
       font-weight: bold;
-
       color: #444;
     }
 
     input,
     select {
       width: 100%;
-
       padding: 14px;
-
       border: 1px solid #ccc;
-
       border-radius: 10px;
-
       font-size: 16px;
-
       outline: none;
     }
 
@@ -218,9 +183,7 @@
 
     .mensagem-sucesso {
       display: none;
-
       text-align: center;
-
       padding: 20px 5px;
     }
 
@@ -232,8 +195,18 @@
       color: #199c51;
     }
 
-    @media (max-width: 600px) {
+    .erro {
+      display: none;
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 10px;
+      background: #fff1f0;
+      color: #b42318;
+      font-size: 14px;
+      text-align: center;
+    }
 
+    @media (max-width: 600px) {
       body {
         padding: 8px 7px 25px;
         background-attachment: scroll;
@@ -262,7 +235,6 @@
         padding: 16px 10px;
       }
     }
-
   </style>
 </head>
 
@@ -313,7 +285,7 @@
   </main>
 
 
-  <!-- JANELA DE CONFIRMAÇÃO -->
+  <!-- CONFIRMAÇÃO -->
 
   <div class="modal" id="modalConfirmacao">
 
@@ -342,6 +314,7 @@
           id="nomeConfirmacao"
           type="text"
           placeholder="Digite seu nome"
+          autocomplete="name"
         >
 
         <label for="quantidade">
@@ -349,22 +322,25 @@
         </label>
 
         <select id="quantidade">
-
           <option value="1">1 pessoa</option>
           <option value="2">2 pessoas</option>
           <option value="3">3 pessoas</option>
           <option value="4">4 pessoas</option>
           <option value="5">5 pessoas</option>
           <option value="6">6 pessoas</option>
-
         </select>
 
         <button
+          id="btnConfirmar"
           class="botao enviar"
           onclick="confirmarPresenca()"
         >
           ✅ Enviar confirmação
         </button>
+
+        <div class="erro" id="erroConfirmacao">
+          Não foi possível registrar. Tente novamente.
+        </div>
 
       </div>
 
@@ -373,7 +349,6 @@
         class="mensagem-sucesso"
         id="sucessoConfirmacao"
       >
-
         <div class="icone">🎉</div>
 
         <h2>Presença confirmada!</h2>
@@ -382,15 +357,13 @@
           Obrigado pela confirmação.<br>
           Esperamos você na festa da Aylla! 💜
         </p>
-
       </div>
 
     </div>
-
   </div>
 
 
-  <!-- JANELA DE RECUSA -->
+  <!-- RECUSA -->
 
   <div class="modal" id="modalRecusa">
 
@@ -419,14 +392,20 @@
           id="nomeRecusa"
           type="text"
           placeholder="Digite seu nome"
+          autocomplete="name"
         >
 
         <button
+          id="btnRecusar"
           class="botao recusar"
           onclick="registrarRecusa()"
         >
           Enviar resposta
         </button>
+
+        <div class="erro" id="erroRecusa">
+          Não foi possível registrar. Tente novamente.
+        </div>
 
       </div>
 
@@ -435,7 +414,6 @@
         class="mensagem-sucesso"
         id="sucessoRecusa"
       >
-
         <div class="icone">💜</div>
 
         <h2>Resposta registrada</h2>
@@ -443,15 +421,17 @@
         <p>
           Obrigado por nos avisar.
         </p>
-
       </div>
 
     </div>
-
   </div>
 
 
   <script>
+
+    const URL_APPS_SCRIPT =
+      "https://script.google.com/macros/s/AKfycbyT9yRU4psIGBFd_CEhkP82vU7rZY2jGzd1hkyNbABmo7h-TWLR41LCcJl8T44yjoVy/exec";
+
 
     function abrirConfirmacao() {
 
@@ -480,13 +460,47 @@
     }
 
 
-    function confirmarPresenca() {
+    async function enviarResposta(dados) {
+
+      const resposta = await fetch(
+        URL_APPS_SCRIPT,
+        {
+          method: "POST",
+
+          /*
+            text/plain evita uma requisição CORS preflight
+            desnecessária para este Web App.
+          */
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          },
+
+          body: JSON.stringify(dados)
+        }
+      );
+
+      if (!resposta.ok) {
+        throw new Error(
+          "Erro HTTP: " + resposta.status
+        );
+      }
+
+      return resposta;
+    }
+
+
+    async function confirmarPresenca() {
 
       const nome =
         document
           .getElementById("nomeConfirmacao")
           .value
           .trim();
+
+      const quantidade =
+        document
+          .getElementById("quantidade")
+          .value;
 
       if (!nome) {
 
@@ -495,18 +509,54 @@
         return;
       }
 
-      document
-        .getElementById("formConfirmacao")
-        .style.display = "none";
 
-      document
-        .getElementById("sucessoConfirmacao")
-        .style.display = "block";
+      const botao =
+        document.getElementById("btnConfirmar");
+
+      const erro =
+        document.getElementById("erroConfirmacao");
+
+
+      botao.disabled = true;
+      botao.textContent = "Enviando...";
+
+      erro.style.display = "none";
+
+
+      try {
+
+        await enviarResposta({
+          nome: nome,
+          resposta: "Confirmado",
+          quantidade: quantidade,
+          dataHora: new Date().toISOString()
+        });
+
+
+        document
+          .getElementById("formConfirmacao")
+          .style.display = "none";
+
+        document
+          .getElementById("sucessoConfirmacao")
+          .style.display = "block";
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        erro.style.display = "block";
+
+        botao.disabled = false;
+        botao.textContent = "✅ Enviar confirmação";
+
+      }
 
     }
 
 
-    function registrarRecusa() {
+    async function registrarRecusa() {
 
       const nome =
         document
@@ -521,13 +571,49 @@
         return;
       }
 
-      document
-        .getElementById("formRecusa")
-        .style.display = "none";
 
-      document
-        .getElementById("sucessoRecusa")
-        .style.display = "block";
+      const botao =
+        document.getElementById("btnRecusar");
+
+      const erro =
+        document.getElementById("erroRecusa");
+
+
+      botao.disabled = true;
+      botao.textContent = "Enviando...";
+
+      erro.style.display = "none";
+
+
+      try {
+
+        await enviarResposta({
+          nome: nome,
+          resposta: "Não comparecerá",
+          quantidade: "0",
+          dataHora: new Date().toISOString()
+        });
+
+
+        document
+          .getElementById("formRecusa")
+          .style.display = "none";
+
+        document
+          .getElementById("sucessoRecusa")
+          .style.display = "block";
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        erro.style.display = "block";
+
+        botao.disabled = false;
+        botao.textContent = "Enviar resposta";
+
+      }
 
     }
 
